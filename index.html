@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社ネクサス・エッジ・キャピタル | 次世代半導体投資</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #001f3f;
+            --accent-color: #c9a050;
+            --text-color: #333;
+            --bg-light: #f4f7f6;
+        }
 
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-weight: bold; font-size: 1.5rem; letter-spacing: 1px; }
+
+        .hero {
+            background: linear-gradient(rgba(0,31,63,0.8), rgba(0,31,63,0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin-bottom: 2rem; }
+
+        .cta-button {
+            background: var(--accent-color);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        .cta-button:hover { transform: scale(1.05); }
+
+        .section { padding: 80px 10%; text-align: center; }
+        .section h2 { color: var(--primary-color); margin-bottom: 40px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background: #111;
+            color: #666;
+            padding: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* ARG用：隠しクラス（最初は見えない） */
+        .hidden-truth {
+            display: none;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            font-family: monospace;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">NEXUS EDGE CAPITAL</div>
+    <nav>投資戦略 | 会社概要 | お問い合わせ</nav>
+</header>
+
+<section class="hero">
+    <h1>半導体の未来を、あなたのポートフォリオに。</h1>
+    <p>AI革命の核心、次世代半導体。独自のクオンツアルゴリズムが、未公開株を含む圧倒的なリターンを算出します。</p>
+    <a href="#" class="cta-button" onclick="alert('現在、新規会員登録を制限しています。招待コードを入力してください。')">今すぐ資産運用を開始</a>
+</section>
+
+<section class="section">
+    <h2>なぜ半導体投資なのか？</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>圧倒的な市場成長</h3>
+            <p>2030年までに1兆ドル規模へ。私たちはその中核企業と独占契約を結んでいます。</p>
+        </div>
+        <div class="card">
+            <h3>AI自動トレード</h3>
+            <p>24時間365日、ナノ秒単位での取引。リスクを最小限に抑え、月利5-8%を安定して実現。</p>
+        </div>
+        <div class="card">
+            <h3>元本確保スキーム</h3>
+            <p>独自の再保険システムにより、あなたの資産は強固に守られます。（※投資にはリスクが伴います）</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background-color: var(--bg-light);">
+    <h2>投資家の声</h2>
+    <p>「半信半疑でしたが、初月から配当がありました。今では家族全員で利用しています。」（50代・自由業）</p>
+    <p>「ネクサス・エッジのおかげで、早期リタイアが現実味を帯びてきました。」（30代・エンジニア）</p>
+</section>
+
+<footer>
+    <p>&copy; 2026 Nexus Edge Capital Inc. All Rights Reserved.</p>
+    <p>金融商品取引業者：関東財務局長（金商）第XXXX号（←適当な番号）</p>
+</footer>
+
+<script>
+    // ARGギミック：コンソールにメッセージを隠す
+    console.log("%c--- SYSTEM ADMIM ---", "color: red; font-weight: bold; font-size: 16px;");
+    console.log("警告: 未承認のアクセスを検知しました。IPアドレスを記録中...");
+    console.log("ヒントを探しているのか？ 'revealTheTruth()' を実行してみろ。");
+
+    function revealTheTruth() {
+        document.body.innerHTML = `
+            <div style="background:black; color:red; height:100vh; padding:50px; font-family:serif;">
+                <h1>STOP.</h1>
+                <p>これは投資会社じゃない。巨大な資金洗浄マシンだ。</p>
+                <p>奴らの正体は、半導体ではなく「人間」をチップとして売っている。</p>
+                <p>証拠の写真は、サーバーの /img/evidence.jpg に隠した。</p>
+                <button onclick="location.reload()">戻る</button>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
