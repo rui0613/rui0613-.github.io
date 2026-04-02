@@ -3,255 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>株式会社ネクサス・エッジ・キャピタル | 次世代半導体投資</title>
+    <title>株式会社ネクサス・エッジ・キャピタル</title>
     <style>
-        :root {
-            --primary: #0a192f;
-            --accent: #d4af37;
-            --text: #e6f1ff;
-            --danger: #ff4d4d;
+        :root { --primary: #0a192f; --accent: #d4af37; --text: #e6f1ff; }
+        body { margin: 0; font-family: sans-serif; background: var(--primary); color: var(--text); transition: 0.5s; }
+        
+        /* ログインモーダル */
+        #login-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column;
         }
+        .login-box { background: #112240; padding: 30px; border-radius: 10px; border: 1px solid var(--accent); text-align: center; }
 
-        body {
-            margin: 0;
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
-            background: var(--primary);
-            color: var(--text);
-            line-height: 1.6;
+        /* 共通スタイル */
+        header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.2); }
+        .logo { font-weight: bold; letter-spacing: 3px; color: var(--accent); cursor: pointer; user-select: none; }
+        .container { padding: 20px; max-width: 600px; margin: auto; }
+        
+        input { 
+            width: 80%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid var(--accent);
+            background: rgba(255,255,255,0.1); color: white; text-align: center;
         }
+        input::placeholder { color: rgba(255,255,255,0.3); font-weight: 100; letter-spacing: 5px; }
 
-        /* ヘッダー */
-        header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            background: rgba(10, 25, 47, 0.9);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .search-portal { display: none; background: #000; padding: 20px; border: 2px solid #0f0; font-family: monospace; }
+        .btn { background: var(--accent); color: var(--primary); border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; }
 
-        .logo {
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: var(--accent);
-            font-size: 1.2rem;
-            user-select: none;
-        }
-
-        /* メインコンテンツ */
-        .container { padding: 20px; text-align: center; }
-
-        .hero h1 { font-size: 1.8rem; margin-bottom: 10px; color: white; }
-        .hero p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; }
-
-        /* 検索セクション（重要ギミック） */
-        .search-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .search-section h3 { font-size: 1rem; color: var(--accent); margin-top: 0; }
-
-        input[type="text"] {
-            width: 90%;
-            padding: 12px;
-            border-radius: 25px;
-            border: 1px solid var(--accent);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-align: center;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            outline: none;
-        }
-
-        .search-btn {
-            background: var(--accent);
-            color: var(--primary);
-            border: none;
-            padding: 10px 30px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* 検索結果表示エリア */
-        #search-result {
-            margin-top: 20px;
-            min-height: 50px;
-            transition: all 0.5s;
-        }
-
-        .confidential-card {
-            border: 2px solid var(--danger);
-            background: rgba(255, 0, 0, 0.1);
-            padding: 15px;
-            text-align: left;
-            animation: flicker 0.2s infinite alternate;
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-
-        .burnt-doc {
-            background: #222;
-            color: #ddd;
-            padding: 15px;
-            border: 1px dashed #555;
-            font-family: serif;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .burnt-doc::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 70%, black 120%);
-        }
-
-        /* フッター */
-        footer {
-            padding: 40px 20px;
-            font-size: 0.7rem;
-            text-align: center;
-            opacity: 0.4;
-        }
-
-        /* ネタばらし画面 */
-        #truth-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: white;
-            color: black;
-            z-index: 1000;
-            padding: 40px 20px;
-            text-align: center;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
+        /* ネタばらし */
+        #truth { display: none; background: white; color: black; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; padding: 40px; text-align: center; box-sizing: border-box; overflow-y: auto;}
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo" id="logo-trigger">NEXUS EDGE CAPITAL</div>
-</header>
+<div id="main-content">
+    <header>
+        <div class="logo" id="logo-trigger">NEXUS EDGE CAPITAL</div>
+    </header>
 
-<div class="container">
-    <section class="hero">
-        <h1>未来を創る、<br>半導体への情熱。</h1>
-        <p>私たちは高度なAIアルゴリズムを用いて、<br>次世代チップ市場の流動性を最適化します。</p>
-        
-        <div class="search-section">
-            <h3>ナレッジベース検索</h3>
-            <p style="font-size: 0.7rem; margin-top: 0;">(社内プロジェクト名やコードを入力してください)</p>
-            <input type="text" id="search-input" placeholder="キーワードを入力...">
-            <br>
-            <button class="search-btn" onclick="handleSearch()">実行</button>
-            
-            <div id="search-result">
-                </div>
-        </div>
+    <div class="container" id="public-view">
+        <section>
+            <h2>半導体で、未来を加速させる。</h2>
+            <p>【社員紹介】<br>システム部：白井 健太<br>「趣味は将棋。個人ブログで戦術を語るのが日課です。」</p>
+            <p style="font-size: 0.8rem; opacity: 0.5;">※社員専用ポータルはメンテナンス中です。</p>
+        </section>
+    </div>
 
-        <div style="margin-top: 40px; opacity: 0.6; font-size: 0.8rem;">
-            <p>【お知らせ】<br>公式X(旧Twitter)にて最新の活動を公開中！<br>
-            <a href="#" style="color: var(--accent);">@NexusEdge_Official</a> (←リンク先を君の作った垢にする)</p>
-        </div>
-    </section>
+    <div class="container search-portal" id="portal-view">
+        <h3 style="color: #0f0;">> 社員用ナレッジ検索ポータル_v2.0</h3>
+        <p style="font-size: 0.7rem;">[STATUS: SYSTEM_BACKDOOR_ACTIVE]</p>
+        <input type="text" id="search-input" placeholder="”X”X”X”">
+        <br>
+        <button class="btn" onclick="executeSearch()">SEARCH</button>
+        <div id="result-display" style="margin-top:20px;"></div>
+    </div>
 </div>
 
-<footer>
-    <p>&copy; 2026 Nexus Edge Capital Inc. All Rights Reserved.</p>
-    <p>特定商取引法に基づく表記 | プライバシーポリシー</p>
-</footer>
-
-<div id="truth-overlay">
-    <h1 style="font-size: 3rem; margin-top: 20px;">🎉 テッテレー！</h1>
-    <h2 style="color: #d00;">投資詐欺体験サイトでした。</h2>
-    <hr>
-    <div style="text-align: left; display: inline-block; max-width: 400px; margin-top: 20px;">
-        <p><strong>【解説】</strong></p>
-        <p>このサイトは、巧妙化する投資詐欺の仕掛けを体験するためのARG（ゲーム）です。</p>
-        <ul>
-            <li><strong>SNSのヒント:</strong> 公式Xに映り込んだ情報から謎を解く手法は、実際の詐欺でも「信憑性を高める」ために使われます。</li>
-            <li><strong>専門用語:</strong> AI、半導体、クオンツなど、流行りの言葉には注意が必要です。</li>
-            <li><strong>教訓:</strong> 「自分だけは大丈夫」が一番危ない！</li>
-        </ul>
-        <p style="background: #eee; padding: 10px; border-radius: 5px; font-weight: bold;">
-            世の中に「絶対儲かる投資」は存在しません。怪しいと思ったら、まずは周囲や専門機関に相談を！
-        </p>
+<div id="login-modal">
+    <div class="login-box">
+        <h3>STAFF LOGIN</h3>
+        <input type="text" id="login-id" placeholder="EMPLOYEE ID">
+        <input type="password" id="login-pw" placeholder="PASSWORD">
+        <br><br>
+        <button class="btn" onclick="tryLogin()">LOGIN</button>
+        <button style="background:none; border:none; color:gray; display:block; margin:auto; margin-top:10px;" onclick="closeLogin()">CLOSE</button>
     </div>
-    <br>
-    <button onclick="location.reload()" style="margin-top: 30px; padding: 15px 30px; border-radius: 30px; border: 1px solid #ccc;">サイトに戻る</button>
+</div>
+
+<div id="truth">
+    <h1>🎉 正解！</h1>
+    <h3>これは投資詐欺をテーマにしたARGでした。</h3>
+    <p>「自分は騙されない」と思っている人ほど危ない。<br>現代の詐欺は、SNSや個人のブログまで偽装します。</p>
+    <div style="background: #ff0; padding: 20px; border: 2px solid #000; font-weight: bold;">
+        【教訓】投資詐欺には気を付けましょう！
+    </div>
+    <button onclick="location.reload()" style="margin-top: 20px;">TOPへ戻る</button>
 </div>
 
 <script>
-    // 1. ロゴ5連打ギミック
+    // 1. ロゴ3連打ギミック
     let tapCount = 0;
     document.getElementById('logo-trigger').addEventListener('click', () => {
         tapCount++;
-        if (tapCount === 5) {
-            alert('SYSTEM MESSAGE: 管理者モードを起動するには検索窓にパスコードを入力してください。');
+        if (tapCount === 3) {
+            document.getElementById('login-modal').style.display = 'flex';
             tapCount = 0;
         }
-        setTimeout(() => { tapCount = 0; }, 3000);
+        setTimeout(() => { tapCount = 0; }, 2000);
     });
 
-    // 2. 検索データベース（一本道のストーリー設計）
-    const db = {
-        "SIGMA": {
-            level: 1,
-            html: `
-                <div class="burnt-doc">
-                    <p style="color: #f00; font-weight: bold;">[機密レベル1: プロジェクト・シグマ報告書]</p>
-                    <p>本計画の真の目的は、半導体の製造ではない。<br>
-                    会員から集めた資金を [ (A):____ ] 経由で [ (B):____ ] へ送金し、<br>
-                    代表の [ (C):____ ] がドバイで換金することにある。</p>
-                    <p style="font-size: 0.7rem; color: #888;">(ヒント: Aはサイト下部の「特定商取引法」を、BとCはXの投稿画像を探せ。正解をハイフンで繋いで検索しろ)</p>
-                </div>
-            `
-        },
-        "A銀行-BIT-島田": { // ←ここは君が決める正解ワード
-            level: 2,
-            html: `
-                <div class="confidential-card">
-                    <p><strong>【機密レベル2】音声ログの復元</strong></p>
-                    <p>「…バレなきゃいいんだよ。半導体なんてチップ1枚も作ってない。全部数字を弄ってるだけだ。次のカモが来たら、そいつの金で前の奴に配当を払え。ポンジ・スキームだと気づかれるなよ…」</p>
-                    <p><strong>代表の正体：</strong> 詐欺師「島田タカシ」<br>
-                    本名を検索して、最終証拠を閲覧しろ。</p>
-                </div>
-            `
-        },
-        "島田タカシ": { // ←最後の正解
-            action: function() {
-                document.getElementById('truth-overlay').style.display = 'block';
-            }
-        }
-    };
+    function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
 
-    function handleSearch() {
-        const input = document.getElementById('search-input').value.trim().toUpperCase();
-        const resultArea = document.getElementById('search-result');
+    // 2. ログイン処理
+    function tryLogin() {
+        const id = document.getElementById('login-id').value;
+        const pw = document.getElementById('login-pw').value;
         
-        if (db[input]) {
-            if (db[input].action) {
-                db[input].action();
-            } else {
-                resultArea.innerHTML = db[input].html;
-            }
+        // ID: 創業日(20240401), PW: ブログから推測(例: LUCKY1010)
+        if (id === "20240401" && pw.toUpperCase() === "LUCKY1010") {
+            alert("認証成功。ポータルへアクセスします。");
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('public-view').style.display = 'none';
+            document.getElementById('portal-view').style.display = 'block';
+            document.body.style.background = "#000";
         } else {
-            resultArea.innerHTML = "<p style='font-size:0.8rem; color:#888;'>該当するデータは見つかりません。</p>";
+            alert("エラー: IDまたはパスワードが違います。");
+        }
+    }
+
+    // 3. 検索ロジック
+    function executeSearch() {
+        const query = document.getElementById('search-input').value.trim().toUpperCase();
+        const display = document.getElementById('result-display');
+        
+        if (query === "SIGMA") {
+            display.innerHTML = `
+                <div style="color:#0f0; border:1px solid #0f0; padding:10px;">
+                    <p>[機密レベル1] 復元されたドキュメント</p>
+                    <p>計画名：シグマ<br>
+                    送金先：[ A:____ ] <br>
+                    目的：[ B:____ ] の隠蔽<br>
+                    責任者：[ C:____ ]</p>
+                    <p>※ヒント：A(銀行名) B(計画の裏名) C(代表名字) を空白区切りで入力せよ</p>
+                </div>`;
+        } else if (query === "A銀行 逃亡 島田") { // 正解例
+            display.innerHTML = "<p style='color:red;'>[緊急] 全データの消去を開始します。真実に到達しました。</p>";
+            setTimeout(() => {
+                document.getElementById('truth').style.display = 'block';
+            }, 2000);
+        } else {
+            display.innerHTML = "<p style='color:#333;'>NO DATA FOUND.</p>";
         }
     }
 </script>
-
 </body>
 </html>
