@@ -29,7 +29,7 @@
         .search-portal { display: none; background: #000; padding: 20px; border: 2px solid #0f0; font-family: monospace; }
         .btn { background: var(--accent); color: var(--primary); border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; }
 
-        /* ネタばらし */
+         /* ネタばらし */
         #truth { display: none; background: white; color: black; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; padding: 40px; text-align: center; box-sizing: border-box; overflow-y: auto;}
     </style>
 </head>
@@ -45,6 +45,12 @@
             <h2>半導体で、未来を加速させる。</h2>
             <p>【社員紹介】<br>システム部：白井 健太<br>「趣味は将棋。個人ブログで戦術を語るのが日課です。」</p>
             <p style="font-size: 0.8rem; opacity: 0.5;">※社員専用ポータルはメンテナンス中です。</p>
+           <!--追加したもの  -->
+            <div style="margin-top: 40px; opacity: 0.6; font-size: 0.8rem;">
+            <p>【お知らせ】<br>公式X(旧Twitter)にて最新の活動を公開中！<br>
+            <a href="#" style="color: var(--accent);">@NexusEdge_Official</a> (←リンク先を君の作った垢にする)</p>
+            </div>
+            
         </section>
     </div>
 
@@ -125,7 +131,7 @@
                     責任者：[ C:____ ]</p>
                     <p>※ヒント：A(銀行名) B(計画の裏名) C(代表名字) を空白区切りで入力せよ</p>
                 </div>`;
-        } else if (query === "A銀行 逃亡 島田") { // 正解例
+        } else if (query === "A銀行 仮想通貨 島田") { // 正解例
             display.innerHTML = "<p style='color:red;'>[緊急] 全データの消去を開始します。真実に到達しました。</p>";
             setTimeout(() => {
                 document.getElementById('truth').style.display = 'block';
